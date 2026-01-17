@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集昇華實驗室 🧪🫧 | 一起開搞你的第一份作品集吧！</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 變數定義 --- */
+        :root {
+            --primary: #F6A6C1;
+            --primary-hover: #faecf2;
+            --accent: #E85D8F;
+            --purple: #C9B8FF;
+            --blue: #AEE3F5;
+            --bg: #FFF7FB;
+            --white: #FFFFFF;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --shadow-soft: 0 10px 30px rgba(232, 93, 143, 0.15);
+            --shadow-glow: 0 0 20px rgba(246, 166, 193, 0.6);
+            --radius-card: 24px;
+            --radius-btn: 50px;
+        }
+
+        /* --- 重置與基礎設定 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1, h2, h3, h4, .nav-logo, .btn-cta {
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        
+        /* --- 背景氣泡動畫 (純CSS) --- */
+        .bubbles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), var(--blue));
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: floatUp linear infinite;
+            filter: blur(1px);
+        }
+
+        /* 產生不同大小與速度的氣泡 */
+        .bubble:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 15s; animation-delay: 0s; background: var(--primary); opacity: 0.2; }
+        .bubble:nth-child(2) { width: 80px; height: 80px; left: 20%; animation-duration: 20s; animation-delay: 2s; background: var(--purple); opacity: 0.15; }
+        .bubble:nth-child(3) { width: 30px; height: 30px; left: 35%; animation-duration: 12s; animation-delay: 4s; background: var(--blue); opacity: 0.3; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; left: 50%; animation-duration: 18s; animation-delay: 1s; background: var(--primary); opacity: 0.1; }
+        .bubble:nth-child(5) { width: 50px; height: 50px; left: 65%; animation-duration: 16s; animation-delay: 5s; background: var(--purple); opacity: 0.2; }
+        .bubble:nth-child(6) { width: 90px; height: 90px; left: 80%; animation-duration: 22s; animation-delay: 3s; background: var(--blue); opacity: 0.15; }
+        .bubble:nth-child(7) { width: 35px; height: 35px; left: 90%; animation-duration: 14s; animation-delay: 6s; background: var(--primary); opacity: 0.25; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-120vh) translateX(20px); opacity: 0; }
+        }
+
+        /* --- 共用元件 --- */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-soft);
+            padding: 30px 24px;
+            margin-bottom: 24px;
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 14px 32px;
+            border-radius: var(--radius-btn);
+            font-size: 1.1rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(232, 93, 143, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+        
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+            filter: brightness(1.05);
+        }
+
+        .btn-cta::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.2), transparent);
+            pointer-events: none;
+        }
+
+        .title-group {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 8px;
+            background: var(--blue);
+            opacity: 0.4;
+            position: absolute;
+            bottom: 2px;
+            left: 20%;
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* --- 導覽列 --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(255, 247, 251, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            padding: 12px 0;
+            transition: 0.3s;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: none; /* Mobile hidden */
+        }
+
+        .nav-links a {
+            margin-left: 24px;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .mobile-menu-btn {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            cursor: pointer;
+            display: block;
+        }
+
+        /* 手機版選單覆蓋 */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transform: translateY(-150%);
+            transition: transform 0.3s ease;
+            z-index: 99;
+            text-align: center;
+        }
+        
+        .mobile-menu-overlay.open {
+            transform: translateY(0);
+        }
+
+        .mobile-menu-overlay a {
+            display: block;
+            padding: 15px;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            padding-top: 120px;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-card {
+            border: 2px solid white;
+            box-shadow: 0 20px 50px rgba(246, 166, 193, 0.25);
+            padding: 40px 24px;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: var(--text-sub);
+            margin-bottom: 32px;
+            white-space: pre-wrap; /* 讓換行符生效 */
+        }
+
+        /* --- 區塊內容設計 --- */
+        
+        /* 理念區 */
+        .concept-text {
+            text-align: center;
+            font-size: 1.05rem;
+            white-space: pre-wrap;
+        }
+
+        /* 關於我 */
+        .about-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .about-intro {
+            background: linear-gradient(135deg, #fff, #fefefe);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px dashed var(--purple);
+        }
+        .about-stats ul {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .about-stats li {
+            background: rgba(255,255,255,0.8);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            font-size: 0.95rem;
+        }
+
+        /* 適合誰 (泡泡列表) */
+        .bubble-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        .bubble-item {
+            background: white;
+            padding: 20px 24px;
+            border-radius: 40px; /* 像藥丸/泡泡 */
+            box-shadow: 0 5px 15px rgba(174, 227, 245, 0.3);
+            width: 100%;
+            position: relative;
+            border: 1px solid var(--blue);
+            text-align: left;
+        }
+        .bubble-item::before {
+            content: '🫧';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* 你會學到什麼 (卡片 Grid) */
+        .learn-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .learn-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,247,251,0.9) 100%);
+            padding: 24px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid white;
+        }
+        .learn-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* 課程資訊 */
+        .info-box {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid var(--primary);
+        }
+        .info-row {
+            display: flex;
+            margin-bottom: 16px;
+            align-items: baseline;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 10px;
+        }
+        .info-row:last-child { border: none; margin: 0; padding: 0; }
+        .info-label {
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 60px;
+            margin-right: 10px;
+        }
+
+        /* 補給包 */
+        .gift-container {
+            display: grid;
+            gap: 20px;
+        }
+        .gift-item {
+            background: linear-gradient(135deg, var(--blue) 0%, #fff 50%);
+            padding: 20px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .gift-tag {
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* FAQ Accordion */
+        .accordion-item {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .accordion-header {
+            padding: 18px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: var(--text-main);
+            background: rgba(255,255,255,0.8);
+        }
+        .accordion-header:hover {
+            background: #fff;
+        }
+        .accordion-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+            color: var(--primary);
+        }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 24px;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            background: #fafafa;
+        }
+        .accordion-content {
+            padding: 15px 0 25px 0;
+            white-space: pre-wrap;
+        }
+        
+        /* 激活狀態 */
+        .accordion-item.active {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-color: var(--primary);
+        }
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-item.active .accordion-body {
+            max-height: 300px; /* 足夠大的高度 */
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            position: relative;
+        }
+        .warning-text {
+            font-size: 0.85rem;
+            color: #999;
+            margin: 30px auto;
+            max-width: 600px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+        .social-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--accent);
+            border-bottom: 1px solid var(--accent);
+        }
+
+        /* --- 波浪分隔線 SVG --- */
+        .wave-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 50px;
+        }
+        .wave-divider .shape-fill {
+            fill: var(--bg);
+        }
+        .wave-top {
+            top: 0;
+            bottom: auto;
+            transform: rotate(0deg);
+            z-index: 1;
+        }
+
+        /* --- RWD Media Queries --- */
+        @media (min-width: 768px) {
+            .section { padding: 100px 0; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.5rem; }
+            
+            .nav-links { display: block; }
+            .mobile-menu-btn { display: none; }
+            .mobile-menu-overlay { display: none; }
+
+            .about-card { flex-direction: row; align-items: center; }
+            .about-intro, .about-stats { flex: 1; }
+            
+            .learn-grid { grid-template-columns: repeat(3, 1fr); }
+            
+            .gift-container { grid-template-columns: 1fr 1fr; }
+            
+            .container { width: 85%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bubbles-container">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">作品集昇華實驗室 🧪</a>
+            <div class="nav-links">
+                <a href="#concept">理念</a>
+                <a href="#about">關於我</a>
+                <a href="#story">故事</a>
+                <a href="#info">課程資訊</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+        </div>
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <a href="#concept" onclick="toggleMenu()">理念</a>
+            <a href="#about" onclick="toggleMenu()">關於我</a>
+            <a href="#story" onclick="toggleMenu()">故事</a>
+            <a href="#info" onclick="toggleMenu()">課程資訊</a>
+            <a href="#faq" onclick="toggleMenu()">FAQ</a>
+        </div>
+    </nav>
+
+    <header id="hero">
+        <div class="container">
+            <div class="glass-card hero-card">
+                <h1 class="hero-title">作品集昇華實驗室 🧪🫧</h1>
+                <p class="hero-subtitle">一起開搞你的第一份作品集吧！</p>
+                <div class="hero-desc">把履歷裡的條列，
+昇華成「看得懂、讀得下去」的經驗 ✨</div>
+                <a href="https://forms.gle/knYE1XZRMV4iqNQL9" target="_blank" class="btn-cta">👉 立即進入實驗室</a>
+            </div>
+        </div>
+        <div class="wave-divider">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill" fill="#FFF7FB"></path>
+            </svg>
+        </div>
+    </header>
+
+    <section id="concept" class="section" style="background: white;">
+        <div class="container">
+            <div class="title-group">
+                <h2 class="section-title">實驗室理念</h2>
+            </div>
+            <div class="concept-text">我們平常說的「昇華」，
+是不是會想到小學自然課本裡那個——
+固態直接變成氣態的神奇過程？
+
+作品集其實也是一樣的概念ㄛ！
+你做過的社團、校園大使、實習、專案，
+原本可能只是履歷上的一條一條。
+
+但經過整理、拆解、重新說清楚之後，
+
+✨ <span class="highlight">它們可以昇華成一份
+「看得懂、記得住、會被翻回來問」的經驗。</span>
+
+這裡，就是你的作品集實驗室ㄛ！🫧</div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="wave-divider wave-top">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill" fill="#FFFFFF"></path>
+            </svg>
+        </div>
+
+        <div class="container">
+            <div class="title-group">
+                <h2 class="section-title">關於我</h2>
+            </div>
+            <div class="glass-card about-card">
+                <div class="about-intro">
+                    <p style="margin-bottom: 1em;">哈囉大家！我是大魚<br>（IG：<a href="https://instagram.com/studiii_yuuu" target="_blank" style="color:var(--accent); text-decoration: underline;">@studiii_yuuu</a>）👋</p>
+                    <p>去年這個時候，我對履歷與作品集幾乎是零概念；在 2025 上半年整理後，獲得 5 場面試、3 個實習 offer。</p>
+                </div>
+                <div class="about-stats">
+                    <ul>
+                        <li>📌 累積 2 份校園大使經歷</li>
+                        <li>📌 2 個正在進行中的實習</li>
+                        <li>📌 2 個大型活動籌備幹部</li>
+                        <li>🏆 2 場商業競賽：佳作 & 全國第三名</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="section" style="background: white;">
+        <div class="container">
+            <div class="glass-card">
+                <h3 style="margin-bottom: 20px; color: var(--accent);">關於這次的實驗室 🧪</h3>
+                <div class="concept-text" style="text-align: left;">去年這個時候，
+我完全不知道作品集跟履歷要幹嘛。
+甚至覺得：
+「這不是設計系才要用的嗎？」
+「行銷跟這個關聯也太低了吧？」
+
+一年後，狠狠打臉我自己 🥲
+
+在 2025 上半年，我花了將近 4 個月，
+磨出我的第一份作品集。
+問了很多人、走了很多彎路、吃了不少苦嗚嗚 🫠
+
+但也因為夠紮實，
+在面試時能夠讓 HR 記住我，
+也能更有邏輯地說清楚我在做什麼。
+
+一年後，我啟動了這個實驗室，
+想陪你一起完成第一份作品集ㄛ！✨</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="target" class="section">
+        <div class="container">
+            <div class="title-group">
+                <h2 class="section-title">適合這樣的你</h2>
+            </div>
+            <div class="bubble-list">
+                <div class="bubble-item">大學階段，我該怎麼累積經歷，讓作品集慢慢長出來？</div>
+                <div class="bubble-item">到底要放哪些內容，又該怎麼寫，才會讓人願意看下去？</div>
+                <div class="bubble-item">已經做了很多事，卻不知道怎麼篩選、怎麼再往前一步？</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="learn" class="section">
+        <div class="container">
+            <div class="title-group">
+                <h2 class="section-title">你會學到</h2>
+            </div>
+            <div class="learn-grid">
+                <div class="learn-card">
+                    <span class="learn-icon">📂</span>
+                    <p>作品集該／不該<br>放入哪些元素</p>
+                </div>
+                <div class="learn-card">
+                    <span class="learn-icon">👤</span>
+                    <p>大學階段如何累積作品集<br>豐富自己的人設</p>
+                </div>
+                <div class="learn-card">
+                    <span class="learn-icon">🤖</span>
+                    <p>如何運用 AI <br>修改你的專屬作品集</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="info" class="section">
+        <div class="container">
+            <div class="title-group">
+                <h2 class="section-title">課程資訊</h2>
+            </div>
+            <div class="info-box">
+                <div class="info-row">
+                    <div class="info-label">形式</div>
+                    <div>線上 Google Meet</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">時長</div>
+                    <div>60 分鐘（含 Q&A）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">名額</div>
+                    <div>限額 20 人</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">費用</div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent);">400 元</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">時間</div>
+                    <div>2026／2／13（五）<br>15:00–16:00</div>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="https://forms.gle/knYE1XZRMV4iqNQL9" target="_blank" class="btn-cta">👉 立即進入實驗室</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="benefits" class="section">
+        <div class="container">
+            <div class="title-group">
+                <h2 class="section-title">實驗室補給包 🧫</h2>
+            </div>
+            <div class="gift-container">
+                <div class="gift-item">
+                    <span class="gift-tag">福利 01</span>
+                    <h3>🌟 作品集專用 Canva 模板</h3>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">直接建立副本開始製作，省去在模板海洋裡選擇困難的時間！</p>
+                </div>
+                <div class="gift-item">
+                    <span class="gift-tag">福利 02</span>
+                    <h3>🌟 作品集回饋 2 次</h3>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">3／10 前，只要完成或做出初稿，可以「寄作品集檔案連結」或「IG 私訊我」獲得回饋。<br><small style="color:var(--accent)">⏰ 超過期限就沒有嘍！</small></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section">
+        <div class="container">
+            <div class="title-group">
+                <h2 class="section-title">常見疑問 FAQ</h2>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q：適合哪些人報名？
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">A：如果你是大學生、正在準備實習，
+或對作品集感到焦慮、卡關的人，
+都非常適合來實驗室坐下來一起做 🧪</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q：如果我完全沒有作品集，也可以參加嗎？
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">A：可以！這堂課就是設計給「還沒有作品集」的人。
+我們會從材料盤點開始，一步一步來。</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q：臨時有事不能參加怎麼辦？
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">A：若因臨時狀況無法線上參與，
+請務必提前一天告知，我會協助全額退款～
+若未事先告知且無故未出席，
+將無法再報名後續的經驗分享或相關活動。</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q：上完課後我只有做一點、方向還不確定，也可以給你看嗎？
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">A：可以的！只要在 3／10 前，
+不論是初稿、半成品，
+都可以寄檔案連結或 IG 私訊我，
+我會依照你的狀態給你方向回饋 🤍</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h2 style="font-size: 1.5rem; color: var(--accent); margin-bottom: 20px;">作品集昇華實驗室 🧪</h2>
+            <p>準備好開始了嗎？</p>
+            <div style="margin: 30px 0;">
+                <a href="https://forms.gle/knYE1XZRMV4iqNQL9" target="_blank" class="btn-cta">👉 立即進入實驗室</a>
+            </div>
+            
+            <p>聯絡方式：<a href="https://instagram.com/studiii_yuuu" target="_blank" class="social-link">IG 私訊小盒子（@studiii_yuuu）</a></p>
+
+            <div class="warning-text">＊本活動為一人作業、名額有限，
+請在報名前確認時間與狀態，
+避免臨時取消，造成彼此的困擾，
+謝謝大家的體諒 🤍</div>
+            
+            <p style="font-size: 0.8rem; color: #ccc; margin-top: 20px;">© 2026 Studiii Yuuu. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 手機選單切換
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+
+        // FAQ Accordion 切換
+        function toggleAccordion(element) {
+            const item = element.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // 關閉所有其他已打開的項目 (可選)
+            document.querySelectorAll('.accordion-item').forEach(i => {
+                i.classList.remove('active');
+            });
+
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // 滾動監聽 (Scroll Spy) - 高亮導覽列
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section, header');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
